@@ -1,1 +1,46 @@
-"use strict";const{app:o,BrowserWindow:i}=require("electron"),t=require("path"),l=require("url");let e;function s(){if(e){console.log("Window already exists, focusing..."),e.focus();return}console.log("Creating new window..."),e=new i({width:800,height:600,webPreferences:{nodeIntegration:process.env.ELECTRON_NODE_INTEGRATION,contextIsolation:!process.env.ELECTRON_NODE_INTEGRATION}});const n=process.env.VITE_DEV_SERVER_URL||l.format({pathname:t.join(__dirname,"../dist/index.html"),protocol:"file:",slashes:!0});console.log("Loading URL:",n),e.loadURL(n),e.on("closed",()=>{e=null})}o.whenReady().then(()=>{console.log("App is ready, creating window..."),s(),o.on("activate",()=>{i.getAllWindows().length===0&&s()})});o.on("window-all-closed",()=>{console.log("All windows closed"),process.platform!=="darwin"&&o.quit()});
+"use strict";
+const { app, BrowserWindow } = require("electron");
+const path = require("path");
+const url = require("url");
+let mainWindow;
+function createWindow() {
+  if (mainWindow) {
+    console.log("Window already exists, focusing...");
+    mainWindow.focus();
+    return;
+  }
+  console.log("Creating new window...");
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+    }
+  });
+  const startUrl = process.env.VITE_DEV_SERVER_URL || url.format({
+    pathname: path.join(__dirname, "../dist/index.html"),
+    protocol: "file:",
+    slashes: true
+  });
+  console.log("Loading URL:", startUrl);
+  mainWindow.loadURL(startUrl);
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+}
+app.whenReady().then(() => {
+  console.log("App is ready, creating window...");
+  createWindow();
+  app.on("activate", () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+});
+app.on("window-all-closed", () => {
+  console.log("All windows closed");
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
