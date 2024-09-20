@@ -1,0 +1,26 @@
+{
+  "name": "my-electron-vue-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && electron-builder",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
+    "electron:build": "vite build && electron-builder --config electron-builder.json"
+  },
+  "dependencies": {
+    "element-plus": "^2.8.3",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "concurrently": "^9.0.1",
+    "cross-env": "^7.0.3",
+    "electron": "^25.3.1",
+    "electron-builder": "^24.4.0",
+    "vite": "^4.4.5",
+    "vite-plugin-electron": "^0.12.0"
+  },
+  "main": "electron/main.js"
+}

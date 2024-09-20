@@ -1,0 +1,17 @@
+{
+  "appId": "com.yourcompany.yourappname",
+  "productName": "Your App Name",
+  "directories": {
+    "output": "release/${version}"
+  },
+  "files": ["dist/**/*", "electron/**/*"],
+  "mac": {
+    "target": ["dmg"]
+  },
+  "win": {
+    "target": ["nsis"]
+  },
+  "linux": {
+    "target": ["AppImage"]
+  }
+}
